@@ -10,7 +10,7 @@ class TextField : public wxWindow
 {
 private:
   wxString text;
-  int cursor_pos;
+  int cursor_pos, cursor_x, text_x, text_y;
 
   void on_paint(wxPaintEvent& e);
   void on_char(wxKeyEvent& e);
