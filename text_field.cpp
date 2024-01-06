@@ -46,11 +46,11 @@ TextField::on_char(wxKeyEvent& e)
     int cw{ GetTextExtent(c).GetWidth() };
     int tw{ GetTextExtent(text).GetWidth() };
 
-    std::cout<<"cw: "<<cw<<'\n'
-      <<"tw: "<<tw<<'\n'
-      <<"cursor_x: "<<cursor_x<<'\n'
-      <<"cursor_x + cw: "<<cursor_x + cw<<'\n'
-      <<"----------------------------------\n";
+    std::cout << "cw: " << cw << '\n'
+              << "tw: " << tw << '\n'
+              << "cursor_x: " << cursor_x << '\n'
+              << "cursor_x + cw: " << cursor_x + cw << '\n'
+              << "----------------------------------\n";
 
     if (tw > 100) {
       text_x -= cw;
@@ -70,18 +70,30 @@ TextField::on_char(wxKeyEvent& e)
     int tw{ GetTextExtent(text).GetWidth() };
     int cw{ GetTextExtent(c).GetWidth() };
 
-    if(cursor_pos == text.size()) {
-      if(text_x < 0){
+    if (cursor_pos == text.size()) {
+      if (text_x < 0) {
         text_x += cw;
-      }else{
+      } else {
         cursor_x -= cw;
       }
-    }else{
-
+    } else {
+      // TODO: when cursor is not in the final
     }
 
     text.erase(cursor_pos - 1, 1);
     cursor_pos--;
+  }
+
+  if (code == WXK_LEFT && cursor_pos > 0) {
+    char c{ text[cursor_pos - 1] };
+    int cw{ GetTextExtent(c).GetWidth() };
+    cursor_pos--;
+
+    if (cursor_x - cw < 0) {
+      text_x += cw;
+    } else {
+      cursor_x -= cw;
+    }
   }
 
   Refresh();
